@@ -12,6 +12,7 @@ angular.module('ngPrettyJson', [])
     scope: {
       json: '=',
       prettyJson: '=',
+      edition: '=',
       onEdit: '&'
     },
     replace: true,      
@@ -28,7 +29,6 @@ angular.module('ngPrettyJson', [])
       scope.id = attrs.id || 'jsonEditor' + getRandomId();
 
       scope.editActivated = false;
-      scope.edition = attrs.edition;
       scope.aceEditor = window.ace !== undefined;    
 
       // compile template
@@ -192,7 +192,7 @@ angular.module('ngPrettyJson', [])
    */
    var syntaxHighlight = function syntaxHighlight(json) {
     if (!angular.isString(json))
-      json = JSON.stringify(json, null, 2);
+      json = JSON.stringify(angular.copy(json), null, 2);
     if (angular.isDefined(json)) {
       return json.replace(rx.entities, makeEntities)
       .replace(rx.json, markup);
